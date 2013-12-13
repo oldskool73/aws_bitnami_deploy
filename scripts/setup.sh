@@ -1,8 +1,7 @@
 #!/usr/bin/python
 set -e
 
-APP_PATH=/opt/bitnami/apps
-DEPLOY_PATH=${APP_PATH}/deploy
+DEPLOY_PATH=/opt/bitnami/apps/deploy
 REPO_PATH=${DEPLOY_PATH}/repo.git
 WEB_ROOT=/opt/bitnami/apache2/htdocs
 
