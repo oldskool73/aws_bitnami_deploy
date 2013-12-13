@@ -1,10 +1,10 @@
 #!/usr/bin/python
 set -e
 
-export APP_PATH=/opt/bitnami/apps
-export DEPLOY_PATH=${APP_PATH}/deploy
-export REPO_PATH=${DEPLOY_PATH}/repo.git
-export WEB_ROOT=/opt/bitnami/apache2/htdocs
+APP_PATH=/opt/bitnami/apps
+DEPLOY_PATH=${APP_PATH}/deploy
+REPO_PATH=${DEPLOY_PATH}/repo.git
+WEB_ROOT=/opt/bitnami/apache2/htdocs
 
 # create work dirs
 mkdir -p ${REPO_PATH}
