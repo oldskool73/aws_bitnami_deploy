@@ -1,0 +1,9 @@
+#!/bin/sh
+DIST_ROOT=/opt/bitnami/apps/deploy/repo.git/dist
+WEB_ROOT=/opt/bitnami/apache2/htdocs
+GIT_WORK_TREE=/opt/bitnami/apps/deploy/stage
+
+export GIT_WORK_TREE
+mkdir -p $GIT_WORK_TREE
+git checkout -f
+rsync -a --delete --size-only --delay-updates $DIST_ROOT $WEB_ROOT
