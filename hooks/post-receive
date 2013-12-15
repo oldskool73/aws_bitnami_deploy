@@ -1,9 +1,36 @@
 #!/bin/sh
-DIST_ROOT=/opt/bitnami/apps/deploy/repo.git/dist
-WEB_ROOT=/opt/bitnami/apache2/htdocs
-GIT_WORK_TREE=/opt/bitnami/apps/deploy/stage
+set -e
+# set -x
+
+WORKPATH=${HOME}/app
+# live location
+LIVEPATH=${WORKPATH}/live
+# stage location
+STAGEPATH=${WORKPATH}/stage
+# git checkout location
+GIT_WORK_TREE=${STAGEPATH}
 
 export GIT_WORK_TREE
-mkdir -p $GIT_WORK_TREE
+export LIVEPATH
+export STAGEPATH
+
+# cleanup prev checkout
+rm -rf ${GIT_WORK_TREE}
+mkdir -p ${GIT_WORK_TREE}
+
+# checkout
 git checkout -f
-rsync -a --delete --size-only --delay-updates $DIST_ROOT $WEB_ROOT
+
+# run any user scripts
+echo "running deploy scripts..."
+for each in /home/bitnami/deploy/stage/deploy/scripts/*.sh;
+do
+    bash $each;
+done;
+
+# swap with live app
+mv ${LIVEPATH} ${LIVEPATH}.bak
+mv ${GIT_WORK_TREE} ${LIVEPATH}
+rm -rf ${LIVEPATH}.bak
+
+echo "** update complete **"
