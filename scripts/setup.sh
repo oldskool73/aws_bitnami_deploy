@@ -6,6 +6,7 @@ REPOPATH=${WORKPATH}/repo.git
 WEBROOT=${WORKPATH}/live/dist
 HTDOCS=/opt/bitnami/apache2/htdocs
 GROUP=daemon
+DIR=$(dirname $0)
 
 # create work dirs
 mkdir -p ${REPOPATH}
@@ -14,7 +15,7 @@ mkdir -p ${REPOPATH}
 git init --bare ${REPOPATH}
 
 # create post-receive hook
-cp ../hooks/post-receive ${REPOPATH}/hooks/
+cp ${DIR}/../hooks/post-receive ${REPOPATH}/hooks/
 chmod +x ${REPOPATH}/hooks/post-receive
 
 # remove old htdocs & link
