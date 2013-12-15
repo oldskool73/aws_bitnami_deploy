@@ -24,7 +24,7 @@ sudo mv ${HTDOCS} ${HTDOCS}.old
 
 # create new htdocs & link
 mkdir -p ${WEBROOT}
-chgrp ${GROUP} ${WEBROOT}
+sudo chgrp ${GROUP} ${WEBROOT}
 sudo ln -s ${WEBROOT} ${HTDOCS}
 sudo chown ${USER} ${HTDOCS}
 sudo chgrp ${GROUP} ${HTDOCS}
