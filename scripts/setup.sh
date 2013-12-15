@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/sh
 set -e
 
 WORKPATH=${HOME}/app
@@ -18,7 +18,7 @@ cp ../hooks/post-receive ${REPOPATH}/hooks/
 chmod +x ${REPOPATH}/hooks/post-receive
 
 # remove old htdocs & link
-unlink ${WEBROOT}
+# unlink ${WEBROOT}
 sudo mv ${HTDOCS} ${HTDOCS}.old
 
 # create new htdocs & link
