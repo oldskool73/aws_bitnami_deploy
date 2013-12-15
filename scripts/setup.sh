@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+set -x
 
 WORKPATH=${HOME}/app
 REPOPATH=${WORKPATH}/repo.git
