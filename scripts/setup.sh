@@ -55,3 +55,5 @@ sudo chgrp ${GROUP} ${HTDOCS}
 
 # copy instructions
 cp -r ${DIR}/../web/* ${WEBROOT}
+sed -i 's/{USER}/${OWNER}' ${WEBROOT}/index.php
+sed -i 's/{REPO}/${REPOPATH}' ${WEBROOT}/index.php

@@ -11,7 +11,7 @@
 	Setup &amp; push your git repository now using :
 
 	<span class="code">
-		git remote add ec2 ssh://bitnami@<?php echo $_SERVER['SERVER_ADDR'] ?>/home/bitnami/deploy/repo.git
+		git remote add ec2 ssh://{USER}@<?php echo $_SERVER['SERVER_ADDR'] ?>/{REPO}
 		git push ec2 +master:refs/heads/master
 	</span>
 </p>
