@@ -15,9 +15,9 @@
 
 	<pre class="code">
 Host {server-name}
-	Hostname <?php echo `curl http://169.254.169.254/latest/meta-data/public-ipv4` ?>
+	Hostname <?php echo `curl http://169.254.169.254/latest/meta-data/public-ipv4`; echo "\n"?>
 	user {USER}
-	IdentityFile {/full/path/to/your/privatekey.pem
+	IdentityFile {/full/path/to/your/privatekey.pem}
 	</pre>	
 
 <p> Then add a remote and push with : </p>
