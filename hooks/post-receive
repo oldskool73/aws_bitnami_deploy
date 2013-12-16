@@ -23,7 +23,7 @@ git checkout -f
 
 # run any user scripts
 echo "running deploy scripts..."
-for each in /home/bitnami/deploy/stage/deploy/scripts/*.sh;
+for each in ${STAGEPATH}/deploy/scripts/*.sh;
 do
     bash $each;
 done;
