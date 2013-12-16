@@ -11,7 +11,7 @@
 	Setup &amp; push your git repository now using :
 
 	<pre class="code">
-		git remote add ec2 ssh://{USER}@<?php echo $_SERVER['SERVER_ADDR'] ?>{REPO}
+		git remote add ec2 ssh://{USER}@<?php echo `curl http://169.254.169.254/latest/meta-data/public-ipv4` ?>{REPO}
 		git push ec2 +master:refs/heads/master
 	</pre>
 </p>
