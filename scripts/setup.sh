@@ -15,7 +15,7 @@ EBS=/dev/xvdb
 ls ${WORKPATH} > /dev/null && rc=$? || rc=$?
 if [ $rc -eq 0 ];then
     #format app dir if not already
-    sudo file -s ${EBS} | grep UUID > /dev/null && rc=$? || rc=$?
+    sudo file -s ${EBS} | grep UUID && rc=$? || rc=$?
     if [ $rc -eq 0 ];then
             sudo mkfs -t ext4 ${EBS}
     fi
