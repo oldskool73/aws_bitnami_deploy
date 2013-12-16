@@ -12,11 +12,11 @@ DIR=$(dirname $0)
 EBS=/dev/xvdb
 
 #check for app dir
-ls ${WORKPATH} > /dev/null
+ls ${WORKPATH} > /dev/null || :
 OUT=$?
 if [ $OUT -eq 0 ];then
 	#format app dir if not already
-	sudo file -s ${EBS} | grep UUID > /dev/null
+	sudo file -s ${EBS} | grep UUID > /dev/null || :
 	OUT=$?
 	if [ $OUT -eq 0 ];then
 		sudo mkfs -t ext4 ${EBS}
