@@ -11,7 +11,8 @@
 	To setup &amp; push your git repository now using ssh :
 </p>
 
-<p> First ensure your public key is on the server. Then add a record to your ~/.ssh/config : </p>p>
+<p> First ensure your public key is on the server. Then add a record to your ~/.ssh/config : </p>
+
 	<pre class="code">
 Host {server-name}
 	Hostname <?php echo `curl http://169.254.169.254/latest/meta-data/public-ipv4` ?>
@@ -19,7 +20,7 @@ Host {server-name}
 	IdentityFile {/full/path/to/your/privatekey.pem
 	</pre>	
 
-<p> Then add a remot and push with : </p>
+<p> Then add a remote and push with : </p>
 
 	<pre class="code">
 git remote add ec2 ssh://{server-name}{REPO}
