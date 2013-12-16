@@ -10,10 +10,10 @@
 <p>
 	Setup &amp; push your git repository now using :
 
-	<span class="code">
+	<pre class="code">
 		git remote add ec2 ssh://{USER}@<?php echo $_SERVER['SERVER_ADDR'] ?>{REPO}
 		git push ec2 +master:refs/heads/master
-	</span>
+	</pre>
 </p>
 	
 </body>
