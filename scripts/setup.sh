@@ -12,24 +12,22 @@ DIR=$(dirname $0)
 EBS=/dev/xvdb
 
 #check for app dir
-ls ${WORKPATH} > /dev/null || :
-OUT=$?
-if [ $OUT -eq 0 ];then
-	#format app dir if not already
-	sudo file -s ${EBS} | grep UUID > /dev/null || :
-	OUT=$?
-	if [ $OUT -eq 0 ];then
-		sudo mkfs -t ext4 ${EBS}
-	fi
-	#create & mount data dir
-	sudo mkdir ${WORKPATH}
-	sudo mount ${EBS} ${WORKPATH}
-	#mount at boot
-	sudo echo "${EBS} ${WORKPATH} ext4 defaults 0 2" >> /etc/fstab
-	sudo mount -a
+ls ${WORKPATH} > /dev/null && rc=$? || rc=$?
+if [ $rc -eq 0 ];then
+    #format app dir if not already
+    sudo file -s ${EBS} | grep UUID > /dev/null && rc=$? || rc=$?
+    if [ $rc -eq 0 ];then
+            sudo mkfs -t ext4 ${EBS}
+    fi
+    #create & mount data dir
+    sudo mkdir ${WORKPATH}
+    sudo mount ${EBS} ${WORKPATH}
+    #mount at boot
+    sudo echo "${EBS} ${WORKPATH} ext4 defaults 0 2" >> /etc/fstab
+    sudo mount -a
 
-	sudo chown ${OWNER} ${WORKPATH}
-	sudo chgrp ${GROUP} ${WORKPATH}
+    sudo chown ${OWNER} ${WORKPATH}
+    sudo chgrp ${GROUP} ${WORKPATH}
 fi
 
 # create work dirs
