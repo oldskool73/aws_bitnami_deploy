@@ -23,6 +23,7 @@ if [ $rc -eq 0 ];then
     sudo mkdir ${WORKPATH}
     sudo mount ${EBS} ${WORKPATH}
     #mount at boot
+    sudo sh -c "echo '${EBS} ${WORKPATH} ext4 defaults 0 2' >> /etc/fstab"
     sudo echo "${EBS} ${WORKPATH} ext4 defaults 0 2" >> /etc/fstab
     sudo mount -a
 
