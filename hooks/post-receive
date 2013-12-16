@@ -2,7 +2,7 @@
 set -e
 # set -x
 
-WORKPATH=${HOME}/app
+WORKPATH=/app
 # live location
 LIVEPATH=${WORKPATH}/live
 # stage location
