@@ -19,14 +19,13 @@ then
     sudo file -s ${EBS} | grep UUID && rc=$? || rc=$?
     if [ $rc -ne 0 ]
     then
-            sudo mkfs -t ext4 ${EBS}
+        sudo mkfs -t ext4 ${EBS}
     fi
     #create & mount data dir
     sudo mkdir ${WORKPATH}
     sudo mount ${EBS} ${WORKPATH}
     #mount at boot
     sudo sh -c "echo '${EBS} ${WORKPATH} ext4 defaults 0 2' >> /etc/fstab"
-    sudo echo "${EBS} ${WORKPATH} ext4 defaults 0 2" >> /etc/fstab
     sudo mount -a
 
     sudo chown ${OWNER} ${WORKPATH}
