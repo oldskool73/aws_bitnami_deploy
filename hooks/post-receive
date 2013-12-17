@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+# set -e
 # set -x
 
 WORKPATH=/app
@@ -13,6 +13,8 @@ GIT_WORK_TREE=${STAGEPATH}
 export GIT_WORK_TREE
 export LIVEPATH
 export STAGEPATH
+
+echo "starting update..."
 
 # cleanup prev checkout
 rm -rf ${GIT_WORK_TREE}
@@ -28,9 +30,11 @@ do
     bash $each;
 done;
 
-# swap with live app
+# swap new stage app with live app
+# # TODO - possibly update the symlink instead? Quicker, safer?
 mv ${LIVEPATH} ${LIVEPATH}.bak
 mv ${GIT_WORK_TREE} ${LIVEPATH}
-rm -rf ${LIVEPATH}.bak
+# remove old live app
+sudo rm -rf ${LIVEPATH}.bak
 
 echo "** update complete **"

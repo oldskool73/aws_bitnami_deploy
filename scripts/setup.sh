@@ -32,13 +32,21 @@ then
     sudo chgrp ${GROUP} ${WORKPATH}
 fi
 
-# create work dirs
-mkdir -p ${REPOPATH}
+# check for existing repo dir
+REPOEXISTS=0
+ls ${REPOPATH} && rc=$? || rc=$?
+if [ $rc -ne 0 ]
+then
+	# create repo dir
+	mkdir -p ${REPOPATH}
+else
+	REPOEXISTS=1
+fi
 
-# create bare repo
+# create bare repo (or reinit existing)
 git init --bare ${REPOPATH}
 
-# create post-receive hook
+# create post-receive hook magic
 cp ${DIR}/../hooks/post-receive ${REPOPATH}/hooks/
 chmod +x ${REPOPATH}/hooks/post-receive
 
@@ -53,7 +61,11 @@ sudo ln -s ${WEBROOT} ${HTDOCS}
 sudo chown ${OWNER} ${HTDOCS}
 sudo chgrp ${GROUP} ${HTDOCS}
 
-# copy instructions
-cp -r ${DIR}/../web/* ${WEBROOT}
-sed -i "s,{USER},${OWNER},g" ${WEBROOT}/index.php
-sed -i "s,{REPO},${REPOPATH},g" ${WEBROOT}/index.php
+# if repo didn't already exist,
+# copy instructions files to root
+if [ ${REPOEXISTS} -ne 0 ]
+then
+	cp -r ${DIR}/../web/* ${WEBROOT}
+	sed -i "s,{USER},${OWNER},g" ${WEBROOT}/index.php
+	sed -i "s,{REPO},${REPOPATH},g" ${WEBROOT}/index.php
+fi
