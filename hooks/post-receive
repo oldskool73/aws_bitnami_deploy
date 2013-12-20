@@ -2,9 +2,10 @@
 # set -e
 # set -x
 
-WORKPATH=/app
+# root of work files
+WORKPATH={{WORKPATH}}
 # live location
-LIVEPATH=${WORKPATH}/live
+LIVEPATH={{LIVEPATH}}
 # stage location
 STAGEPATH=${WORKPATH}/stage
 # git checkout location
@@ -23,7 +24,7 @@ mkdir -p ${GIT_WORK_TREE}
 # checkout
 git checkout -f
 
-# run any user scripts
+# run any user scripts included in repo
 echo "running deploy scripts..."
 for each in ${STAGEPATH}/deploy/scripts/*.sh;
 do
@@ -31,7 +32,7 @@ do
 done;
 
 # swap new stage app with live app
-# # TODO - possibly update the symlink instead? Quicker, safer?
+# ** TODO - possibly update the symlink instead? Quicker, safer?
 mv ${LIVEPATH} ${LIVEPATH}.bak
 mv ${GIT_WORK_TREE} ${LIVEPATH}
 # remove old live app

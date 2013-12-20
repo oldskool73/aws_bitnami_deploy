@@ -2,14 +2,24 @@
 set -e
 set -x
 
+#EBS volume to mount
+EBS=/dev/xvdb
+# root of work files (where ebs volume is mounted)
 WORKPATH=/app
+# where to create local repo
 REPOPATH=${WORKPATH}/repo.git
-WEBROOT=${WORKPATH}/live/dist
+# where to checkout files to
+LIVEPATH=${WORKPATH}/live
+# where to serve web files inside livepath
+WEBROOT=/dist
+# current web root as set in apache conf
 HTDOCS=/opt/bitnami/apache2/htdocs
+# owner of files
 OWNER=bitnami
 GROUP=daemon
+
+# current working dir
 DIR=$(dirname $0)
-EBS=/dev/xvdb
 
 #check for app dir
 ls ${WORKPATH} && rc=$? || rc=$?
@@ -24,7 +34,7 @@ then
     #create & mount data dir
     sudo mkdir ${WORKPATH}
     sudo mount ${EBS} ${WORKPATH}
-    #mount at boot
+    #remount at boot
     sudo sh -c "echo '${EBS} ${WORKPATH} ext4 defaults 0 2' >> /etc/fstab"
     sudo mount -a
 
@@ -48,16 +58,18 @@ git init --bare ${REPOPATH}
 
 # create post-receive hook magic
 cp ${DIR}/../hooks/post-receive ${REPOPATH}/hooks/
-chmod +x ${REPOPATH}/hooks/post-receive
+HOOK=${REPOPATH}/hooks/post-receive
+sed -i "s,{{WORKPATH}},${WORKPATH},g" ${HOOK}
+sed -i "s,{{LIVEPATH}},${LIVEPATH},g" ${HOOK}
+chmod +x ${HOOK}
 
 # remove old htdocs
-# unlink ${WEBROOT}
 sudo mv ${HTDOCS} ${HTDOCS}.old
-
 # create new htdocs & link
-mkdir -p ${WEBROOT}
-sudo chgrp ${GROUP} ${WEBROOT}
-sudo ln -s ${WEBROOT} ${HTDOCS}
+NEWROOT=${LIVEPATH}${WEBROOT}
+mkdir -p ${NEWROOT}
+sudo chgrp ${GROUP} ${NEWROOT}
+sudo ln -s ${NEWROOT} ${HTDOCS}
 sudo chown ${OWNER} ${HTDOCS}
 sudo chgrp ${GROUP} ${HTDOCS}
 
@@ -65,7 +77,7 @@ sudo chgrp ${GROUP} ${HTDOCS}
 # copy instructions files to root
 if [ ${REPOEXISTS} -ne 0 ]
 then
-	cp -r ${DIR}/../web/* ${WEBROOT}
-	sed -i "s,{USER},${OWNER},g" ${WEBROOT}/index.php
-	sed -i "s,{REPO},${REPOPATH},g" ${WEBROOT}/index.php
+	cp -r ${DIR}/../web/* ${NEWROOT}
+	sed -i "s,{USER},${OWNER},g" ${NEWROOT}/index.php
+	sed -i "s,{REPO},${REPOPATH},g" ${NEWROOT}/index.php
 fi
